@@ -1,0 +1,15 @@
+### Add Book
+POST http://localhost:3000/book/add
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImVtYWlsIjoiQWRtaW40NTQ0NDVAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzg4OTc3NjY2LCJleHAiOjE3ODkwNjQwNjZ9.NU_Wy2ggYPS5WpCUy1uyy4gOvQ7-JlmLlxgAYRskG1A
+
+
+{
+  "title": "مدخل إلى تحليل البيانات",
+  "author": "أسامة الزيرو",
+  "total_copies": 180
+}
+
+###Delete Book
+DELETE  http://localhost:3000/book/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYW1pbmFAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzg4OTQyMTMwLCJleHAiOjE3ODkwMjg1MzB9.d68b-v91QUprmqsNy2c-cZgynNlRcyKY6J8cvouwxAA
