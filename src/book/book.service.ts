@@ -27,17 +27,6 @@ export class BookService {
     return  this.bookRepository.save(book)
   }
 
-  findAll() {
-    return `This action returns all book`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
-  }
-
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
-  }
 
   async remove(id: number) {
     const book = await this.bookRepository.findOneBy({id})

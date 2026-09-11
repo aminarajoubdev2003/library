@@ -1,14 +1,13 @@
 ### Borrow Book
 POST http://localhost:3000/borrowing
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiQWhtYWRAZ21haWwuY29tIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTc4ODk2ODY2OSwiZXhwIjoxNzg5MDU1MDY5fQ.GQ9EiXXfQ4znfCh28cb91GNc-mV50pfGyqx9vAcJ4j0
-
+Authorization: Bearer TOKEN
 
 {
-  "book_id": 2,
+  "book_id": 3,
   "due_date": "2026-10-20"
 }
 
 ### Return Book
 GET   http://localhost:3000/borrowing/return/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiQWhtYWRAZ21haWwuY29tIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTc4ODk3MzM0NCwiZXhwIjoxNzg5MDU5NzQ0fQ.Ofu5LD6pWuZ4twcSPXcAKfvSJhtAzRDzG3l0y922aJQ
+Authorization: Bearer TOKEN

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBorrowingDto } from './dto/create-borrowing.dto';
 import { ReturnBorrowingDto } from './dto/return-borrowing.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,7 +15,7 @@ export class BorrowingService {
     @InjectRepository(Book) private readonly bookRepository: Repository<Book>,
   ) {}
 
-  async create(request: any, createBorrowingDto: CreateBorrowingDto) {
+  async create(user_id: number , createBorrowingDto: CreateBorrowingDto) {
     const book = await this.bookRepository.findOneBy({
       id: createBorrowingDto.book_id,
     });
@@ -23,10 +23,10 @@ export class BorrowingService {
       throw new NotFoundException('Book Not Found');
     }
     if (book.available_copies <= 0) {
-      throw new NotFoundException('Book Not Found');
+      throw new ConflictException('No available copies',);
     }
     const borrowing = this.borrowRepository.create({
-      user_id: request.user.id,
+      user_id: user_id,
       book_id: book.id,
       borrow_date: new Date(),
       due_date: new Date(createBorrowingDto.due_date),
@@ -38,19 +38,13 @@ export class BorrowingService {
     return await this.borrowRepository.save(borrowing);
   }
 
-  findAll() {
-    return `This action returns all borrowing`;
-  }
+  
 
-  findOne(id: number) {
-    return `This action returns a #${id} borrowing`;
-  }
-
-  async returnBook(request:any, id: number) {
+  async returnBook(user_id: number, id: number) {
     const borrowing = await this.borrowRepository.findOne({
       where: {
       id: id,
-      user_id: request.user.id,
+      user_id: user_id,
     },
     relations: { book: true },
     })
@@ -65,16 +59,19 @@ export class BorrowingService {
 
     const returnDate = new Date()
     borrowing.return_date = returnDate
+
+    const fine = 0
     if( returnDate > borrowing.due_date){
-      borrowing.fine = 500
+      const lateDays = Math.max(0,Math.ceil(( returnDate.getTime()-borrowing.due_date.getTime()
+      / (1000 * 60 * 60 * 24))))
+      const fine = lateDays * 10;
     }
+    borrowing.fine = fine;
     borrowing.book.available_copies += 1
 
     await this.bookRepository.save(borrowing.book)
     return this.borrowRepository.save(borrowing)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} borrowing`;
-  }
+  
 }

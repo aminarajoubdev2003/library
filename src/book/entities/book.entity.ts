@@ -1,22 +1,21 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Borrowing } from "../../borrowing/entities/borrowing.entity";
 
-@Unique(['title'])
 @Entity()
 export class Book {
     @PrimaryGeneratedColumn()
     id:number
     
-    @Column({ unique: true })
+    @Column({ type: 'varchar', unique: true })
     title:string
     
-    @Column()
+    @Column({ type: 'varchar' })
     author:string
 
-    @Column()
+    @Column({ type: 'int' })
     total_copies:number
 
-    @Column()
+    @Column({ type: 'int' })
     available_copies:number
 
     @OneToMany( () => Borrowing , (borrowing) => borrowing.book)

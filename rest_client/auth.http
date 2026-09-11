@@ -3,15 +3,8 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "name": "ريم السلقيتي",
-  "email": "ٌReem#$54445@gmail.com",
-  "password": "12345678"
-}
-
-### Admin Acount
-{
-  "name": "أدمن",
-  "email": "Admin454445@gmail.com",
+  "name": "راما السلقيتي",
+  "email": "ٌRama#$54445@gmail.com",
   "password": "12345678"
 }
 
@@ -20,10 +13,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "Admin454445@gmail.com",
+  "email": "Rama#$54445@gmail.com",
   "password": "12345678"
 }
 
-###profile
-GET http://localhost:3000/auth/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYW1pbmFAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzg4OTQyMTMwLCJleHAiOjE3ODkwMjg1MzB9.d68b-v91QUprmqsNy2c-cZgynNlRcyKY6J8cvouwxAA

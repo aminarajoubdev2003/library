@@ -1,5 +1,4 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from "@nestjs/common";
-import { stat } from "fs";
 
 @Catch(HttpException)
 export class  BookExceptionFilter implements ExceptionFilter{
@@ -7,11 +6,22 @@ export class  BookExceptionFilter implements ExceptionFilter{
 
         const response = host.switchToHttp().getResponse()
         const status = exception.getStatus()
-        const message = exception.getResponse()
+        const exceptionResponse = exception.getResponse();
+        let message : string
+
+        if (typeof exceptionResponse === 'string') {
+            message = exceptionResponse;
+        } else {
+            message = (exceptionResponse as any).message;
+        }
 
         response.status(status).json({
-            statusCode: status,
-            message: message
-        })
+        success: false,
+        data: null,
+        error: {
+        statusCode: status,
+        message: message,
+        }
+        });
     }
 }

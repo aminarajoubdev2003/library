@@ -14,6 +14,7 @@ import { BorrowingService } from './borrowing.service';
 import { CreateBorrowingDto } from './dto/create-borrowing.dto';
 import { ReturnBorrowingDto } from './dto/return-borrowing.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt_auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 @Controller('borrowing')
 export class BorrowingController {
@@ -22,34 +23,20 @@ export class BorrowingController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(
-    @Request() request: any,
+    @CurrentUser() user: any,
     @Body() createBorrowingDto: CreateBorrowingDto,
   ) {
-    return this.borrowingService.create(request, createBorrowingDto);
+    return this.borrowingService.create(user.id, createBorrowingDto);
   }
 
-  @Get()
-  findAll() {
-    return this.borrowingService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.borrowingService.findOne(+id);
-  }
 
   @UseGuards(JwtAuthGuard)
-  @Get('return/:id')
+  @Patch('return/:id')
   returnBook(
-    @Request() request: any,
+    @CurrentUser() user: any,
     @Param('id', ParseIntPipe) id: number,
-    //@Body() updateBorrowingDto: ReturnBorrowingDto,
   ) {
-    return this.borrowingService.returnBook(request,id);
+    return this.borrowingService.returnBook(user.id,id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.borrowingService.remove(+id);
-  }
 }
