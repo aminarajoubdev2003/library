@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseIntPipe, UseFilters } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, ParseIntPipe, UseFilters } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
-import { UpdateBookDto } from './dto/update-book.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt_auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { BookExceptionFilter } from './filters/book-exception.filter';
@@ -19,6 +18,17 @@ export class BookController {
     return this.bookService.create(createBookDto);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  findAll() {
+    return this.bookService.findAll();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  findOne(@Param('id' , ParseIntPipe) id: number) {
+    return this.bookService.findOne(id);
+  }
 
   @Roles(UserRole.ADMIN)
   @UseGuards(JwtAuthGuard,RolesGuard)

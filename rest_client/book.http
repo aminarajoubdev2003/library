@@ -2,12 +2,21 @@
 POST http://localhost:3000/book/add
 Content-Type: application/json
 Authorization: Bearer TOKEN
+
 {
-  "title": "مدخل إلى الذكاء الاصطناعي ",
+  "title": "مدخل إلى قواعد البيانات",
   "author": "أسامة الزيرو",
   "total_copies": 180
 }
 
 ###Delete Book
 DELETE  http://localhost:3000/book/1
+Authorization: Bearer TOKEN
+
+###GET Books
+GET   http://localhost:3000/book/
+Authorization: Bearer TOKEN
+
+###GET Book
+GET   http://localhost:3000/book/1
 Authorization: Bearer TOKEN

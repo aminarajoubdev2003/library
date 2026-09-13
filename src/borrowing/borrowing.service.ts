@@ -1,11 +1,9 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBorrowingDto } from './dto/create-borrowing.dto';
-import { ReturnBorrowingDto } from './dto/return-borrowing.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Borrowing } from './entities/borrowing.entity';
 import { Repository } from 'typeorm';
 import { Book } from '../book/entities/book.entity';
-import { Request } from 'express';
 
 @Injectable()
 export class BorrowingService {
@@ -33,12 +31,10 @@ export class BorrowingService {
     });
     if (borrowing) {
       book.available_copies = book.available_copies - 1;
-      const updatedBook = await this.bookRepository.save(book);
+      await this.bookRepository.save(book);
     }
     return await this.borrowRepository.save(borrowing);
   }
-
-  
 
   async returnBook(user_id: number, id: number) {
     const borrowing = await this.borrowRepository.findOne({
@@ -60,11 +56,11 @@ export class BorrowingService {
     const returnDate = new Date()
     borrowing.return_date = returnDate
 
-    const fine = 0
+    let fine = 0
     if( returnDate > borrowing.due_date){
-      const lateDays = Math.max(0,Math.ceil(( returnDate.getTime()-borrowing.due_date.getTime()
-      / (1000 * 60 * 60 * 24))))
-      const fine = lateDays * 10;
+      const lateDays = Math.max(0,Math.ceil(( returnDate.getTime()-borrowing.due_date.getTime())
+      / (1000 * 60 * 60 * 24)))
+      fine = lateDays * 10;
     }
     borrowing.fine = fine;
     borrowing.book.available_copies += 1
@@ -73,5 +69,15 @@ export class BorrowingService {
     return this.borrowRepository.save(borrowing)
   }
 
-  
+  async findAll( user_id: number ) {
+    const borrowings = await this.borrowRepository.find({
+      where: {
+        user_id: user_id
+      }
+    });
+    if ( borrowings.length === 0 ) {
+      throw new NotFoundException('Borrowings Not Found');
+    }
+    return borrowings
+  }
 }

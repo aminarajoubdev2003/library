@@ -1,6 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
-import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
@@ -25,6 +24,22 @@ export class BookService {
       available_copies: createBookDto.total_copies
     })
     return  this.bookRepository.save(book)
+  }
+
+  async findAll() {
+    const books = await this.bookRepository.find();
+    if( books.length === 0 ){
+      throw new NotFoundException('Books Not Found')
+    }
+    return books
+  }
+
+  async findOne(id: number) {
+    const book = await this.bookRepository.findBy({id});
+    if( !book ){
+      throw new NotFoundException('Book Not Found')
+    }
+    return book;
   }
 
 

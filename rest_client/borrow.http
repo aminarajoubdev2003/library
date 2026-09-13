@@ -2,12 +2,14 @@
 POST http://localhost:3000/borrowing
 Content-Type: application/json
 Authorization: Bearer TOKEN
-
 {
-  "book_id": 3,
+  "book_id": 2,
   "due_date": "2026-10-20"
 }
 
 ### Return Book
-GET   http://localhost:3000/borrowing/return/1
+PATCH    http://localhost:3000/borrowing/return/2
+Authorization: Bearer TOKEN
+### Borrowings
+GET     http://localhost:3000/borrowing
 Authorization: Bearer TOKEN

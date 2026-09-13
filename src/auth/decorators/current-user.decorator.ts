@@ -1,5 +1,4 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { rethrow } from "@nestjs/core/helpers/rethrow.js";
 
 export const CurrentUser = createParamDecorator(
     

@@ -1,5 +1,4 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
-import { Observable } from "rxjs";
 import { UserRole } from "../../user/entities/user.entity";
 import { Reflector } from "@nestjs/core";
 
